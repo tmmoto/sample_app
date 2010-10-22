@@ -45,8 +45,6 @@ describe PagesController do
       response.should have_selector("title", 
                         :content => "Ruby on Rails Tutorial Sample App | About")
     end
-    
-    
   end
     
 
