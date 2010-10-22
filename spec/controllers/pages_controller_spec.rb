@@ -33,7 +33,7 @@ describe PagesController do
                         :content => "Ruby on Rails Tutorial Sample App | Contact")
     end
   end
-  
+   
   describe "GET 'about'" do
     it "should be successful" do
       get 'about'
