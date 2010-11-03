@@ -106,3 +106,18 @@ a.signup_button {
   -webkit-border-radius: 6px;
   border-radius:         6px;
 }
+
+
+
+/* Footer */
+footer { 
+  text-align: center;
+  margin-top: 10px;
+  width: 710px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+footer nav {
+  float: none;
+}
