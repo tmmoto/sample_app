@@ -45,7 +45,5 @@ describe "LayoutLinks" do
     response.should have_selector('title', :content => "Sign Up" )
     
     response.should have_selector('a[href="/"]>img') # Response has an anchor, with href = / in it and with img inside
-    
-    
   end
 end
