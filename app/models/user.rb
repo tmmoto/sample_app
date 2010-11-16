@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101115204535
+# Schema version: 20101116170432
 #
 # Table name: users
 #
@@ -9,11 +9,15 @@
 #  created_at         :datetime
 #  updated_at         :datetime
 #  encrypted_password :string(255)
+#  salt               :string(255)
 #
 
 class User < ActiveRecord::Base
-  attr_accessor   :password, :password_confirmation
+  attr_accessor   :password
   attr_accessible :name, :email, :password, :password_confirmation
+  #Note: password was created by thhe attr_accessor, while :password_confirmation is created 
+  # as a result of the password validation, created by rails, from the validates :password lines
+  
   
   
   email_regex = /\A[\w.+\-]+@[a-z.\d\-]+\.[a-z]+\z/i
@@ -25,9 +29,46 @@ class User < ActiveRecord::Base
                     :format     => { :with => email_regex },
                     :uniqueness => { :case_sensitive => false }
   validates :password, :presence => true,
-                       :confirmation => true, 
+                       :confirmation => true,    # This line creates a password_confirmation attribute
                        :length => { :within => 6..40 }
                         
-                    
+  before_save :encrypt_password
+  
+  
+  def has_password?(submitted_password)
+    encrypted_password == encrypt(submitted_password)
+  end
+  
+
+  def User.authenticate(email, submitted_password)   # This is a class function (by using User. or self.  in the def)
+    auser=find_by_email(email)
+    return nil if auser.nil?
+    return auser if auser.has_password?(submitted_password)   # I don't like this version. This implicitly says that if we don't test with the 
+                                                              #right pw, than just return nil by getting to the end of the block without
+  end
+  
+private
+  
+  def encrypt_password
+    self.salt = make_salt if new_record?         # new_record is a method in active record. Question: what happens when salt is added to old records?
+    self.encrypted_password = encrypt(password)   # need a self so that ruby knows we are referring to a method here, 
+                                                 # other wise this will be interpreted as a local variable.
+  end
+          
+  def encrypt(string)
+    secure_hash("#{salt}--#{string}")  # temp solution for testing
+  end
+  
+  def secure_hash(string)
+    Digest::SHA2.hexdigest(string)
+  end            
+  
+  def make_salt
+    secure_hash("#{Time.now.utc}--#{password}}")   
+  end
+  
 end 
+
+
+
 
