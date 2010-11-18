@@ -20,7 +20,22 @@ describe UsersController do
       assigns(:user).should == @user  # assign method from RSpec will will return the @user symbol in the controller. 
       #So we are testing here if the show action really returning the right object here
     end
-  end
+    
+    it "should have the right title" do
+      get :show, :id => @user
+      response.should have_selector('title', :content => @user.name ) 
+    end
+    
+    it "should have the user's name" do
+      get :show, :id => @user
+      response.should have_selector('h1', :content => @user.name ) 
+    end
+    
+    it "should have a profile image" do
+      get :show, :id => @user
+      response.should have_selector('h1>img', :class => "gravatar")  # Searching in <H1><img> tags for the gravar class 
+    end
+  end   
 
   describe "GET 'new'" do
     it "should be successful" do
