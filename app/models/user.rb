@@ -43,8 +43,7 @@ class User < ActiveRecord::Base
   def User.authenticate(email, submitted_password)   # This is a class function (by using User. or self.  in the def)
     auser=find_by_email(email)
     return nil if auser.nil?
-    return auser if auser.has_password?(submitted_password)   # I don't like this version. This implicitly says that if we don't test with the 
-                                                              #right pw, than just return nil by getting to the end of the block without
+    return auser if auser.has_password?(submitted_password)   # I don't like this version. This implicitly says that if we don't test with the                                                               #right pw, than just return nil by getting to the end of the block without
   end
   
 private
