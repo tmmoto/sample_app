@@ -7,10 +7,25 @@ class UsersController < ApplicationController
 
   def new
     @title = "Sign Up"
-    @user = User.new    # Creating a raw user object here, not yet save in the database.
-    
+    @user = User.new    # Creating a raw user object here, not yet saved in the database.
   end
+  
+  def create
+    #raise params[:user].inspect # Inspect shows a string representation of an object (lesson 4)
 
+    @user = User.new(params[:user])
+    if @user.save
+      # Handle a succesful save
+      flash[:success] = "Welcome to the Sample App!"
+      redirect_to user_path(@user)  # we could also use redirect_to @user
+       
+      # This could be refactored also 
+      # redirect_to user_path(@user), :flash => {:success => "Welcome to the Sample App!"}
+    else
+      @title = "Sign Up"
+      render 'new' 
+    end
+  end
 end
 
 
