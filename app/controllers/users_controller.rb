@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    @title = "Sign Up"
+    @title = "Sign up"
     @user = User.new    # Creating a raw user object here, not yet saved in the database.
   end
   
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       # This could be refactored also 
       # redirect_to user_path(@user), :flash => {:success => "Welcome to the Sample App!"}
     else
-      @title = "Sign Up"
+      @title = "Sign up"
       render 'new' 
     end
   end

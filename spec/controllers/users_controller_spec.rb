@@ -52,7 +52,7 @@ describe UsersController do
 
     it "should have the right title" do
       get :new
-      response.should have_selector('title', :content => "Sign Up")
+      response.should have_selector('title', :content => "Sign up")
     end
 
   end
@@ -67,7 +67,7 @@ describe UsersController do
     
       it "should have the right title" do
         post :create, :user => @attr
-        response.should have_selector('title', :content => "Sign Up")  
+        response.should have_selector('title', :content => "Sign up")  
       end
       
       
@@ -105,11 +105,6 @@ describe UsersController do
        post :create, :user => @attr
        flash[:success].should =~ /welcome to the sample app/i 
      end
-     
-     it "should save user to the databae" 
-     
-     it "should show the saved users information"
-       
     
       
     end    
