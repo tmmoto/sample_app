@@ -41,9 +41,18 @@ class User < ActiveRecord::Base
   
 
   def User.authenticate(email, submitted_password)   # This is a class function (by using User. or self.  in the def)
-    auser=find_by_email(email)
-    return nil if auser.nil?
-    return auser if auser.has_password?(submitted_password)   # I don't like this version. This implicitly says that if we don't test with the                                                               #right pw, than just return nil by getting to the end of the block without
+    auser = find_by_email(email)
+    # return nil if auser.nil?
+    # return auser if auser.has_password?(submitted_password)   # I don't like this version. This implicitly says that if we don't test with the    
+                                                               #right pw, than just return nil by getting to the end of the block without
+                                                               
+    (auser && auser.has_password?(submitted_password)) ? auser : nil                                                              
+  end
+  
+  def User.authenticate_with_salt(id, cookie_salt)  #Cookie salt is the salt value that we stored in the cookie and will to authenticate with
+    user = find_by_id(id)
+    (user && user.salt = cookie_salt) ? user : nil #  Ternary operator
+    
   end
   
 private

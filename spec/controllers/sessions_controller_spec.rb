@@ -45,8 +45,23 @@ describe SessionsController do
     end  
 
     describe "success" do
+      before(:each) do
+        @user = Factory(:user)
+        @attr = { :email => @user.email, :password => @user.password }
+      end
       
+      it "should sign the user in" do
+        post :create, :session => @attr
+        controller.current_user == @user # Inside  a test, you can access the controller that is being tested by controller.attribute/method
+        controller.should be_signed_in    # be_signed_in corresponds to the signed_in?  method, so we need to create one
+      end
+      
+      it "should redirect to the  user show page" do
+        post  :create, :session => @attr
+        response.should redirect_to(user_path(@user))
+      end
     end  
+    
     
   end
 
