@@ -86,27 +86,30 @@ describe UsersController do
     
     describe "success" do
       before(:each) do
-        @attr = { :name => "New User", :email => "user@example.com", :password => "foobar", :password_confirmation => "foobar" }  # Invalid user data
+        @attr = { :name => "New User", :email => "user@2example.com", :password => "foobar", :password_confirmation => "foobar" }  # Invalid user data
       end
-            
-     it "should create a user" do
-       lambda do 
-         post :create, :user => @attr
-       end.should change(User, :count).by(1) 
-     end
-     
-     
-     it "should redirect to the user show page" do
-       post :create, :user => @attr
-       response.should redirect_to(user_path(assigns(:user)))  #assigns(:user)  pulls teh @user object from the current action
-     end
-     
-     it "should have a welcom messsage" do
-       post :create, :user => @attr
-       flash[:success].should =~ /welcome to the sample app/i 
-     end
-    
-      
+                  
+      it "should create a user" do
+        lambda do 
+          post :create, :user => @attr
+        end.should change(User, :count).by(1) 
+      end
+
+
+      it "should redirect to the user show page" do
+        post :create, :user => @attr
+        response.should redirect_to(user_path(assigns(:user)))  #assigns(:user)  pulls teh @user object from the current action
+      end
+
+      it "should have a welcom messsage" do
+        post :create, :user => @attr
+        flash[:success].should =~ /welcome to the sample app/i 
+      end
+
+      it "should sign the user in" do
+        post :create, :user => @attr
+        controller.should be_signed_in
+      end
     end    
   end
 end

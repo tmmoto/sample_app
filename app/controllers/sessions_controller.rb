@@ -15,12 +15,13 @@ class SessionsController < ApplicationController
     else
       # Handle successful signin
       sign_in user
-      redirect_to user # Was originally redirect_to user_path(user)
+      redirect_to user # Was originally _to user_path(user)
     end
   end
   
   def destroy
-    
+    sign_out
+    redirect_to root_path
   end
 
 end

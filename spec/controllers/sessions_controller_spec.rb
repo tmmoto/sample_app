@@ -18,7 +18,6 @@ describe SessionsController do
   describe "POST 'create'" do
 
     describe "failure" do
-      
       before(:each) do
         @attr = { :email => "", :password => "" }
       end
@@ -33,15 +32,13 @@ describe SessionsController do
         response.should have_selector('title', :content => "Sign in")
       end
                 
-      it "should not create a new session" do
+      # it "should not create a new session" do # TM not sure if we need this, but perhaps it would make sense to test 
         
-      end  
       
       it "should have an error message" do
         post :create, :session => @attr  
         flash.now[:error].should =~ /invalid/i
       end 
-      
     end  
 
     describe "success" do
@@ -56,13 +53,22 @@ describe SessionsController do
         controller.should be_signed_in    # be_signed_in corresponds to the signed_in?  method, so we need to create one
       end
       
-      it "should redirect to the  user show page" do
+      it "should redirect to the user show page" do
         post  :create, :session => @attr
         response.should redirect_to(user_path(@user))
       end
     end  
     
-    
+    describe "DELETE 'destroy" do
+      
+      it "should sign a user out" do
+        test_sign_in(Factory(:user))  # will define this test method in spec_helper
+        #controller.current_user=Factory(:user)  #could use these sing ins too.
+        #controller.sign_in(Factory(:user))
+        delete :destroy
+        controller.should_not be_signed_in
+        response.should redirect_to(root_path)
+      end
+    end
   end
-
 end

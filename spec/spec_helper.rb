@@ -36,6 +36,11 @@ Spork.prefork do
     # Emulate initializer set_clear_dependencies_hook in 
     # railties/lib/rails/application/bootstrap.rb
     ActiveSupport::Dependencies.clear
+    
+    def test_sign_in(user)
+      #controller.current_user = user  #If we use this line, a test one pass, this is a bug in rails/rspec, s will 
+      controller.sign_in(user)
+    end
   end
 end
 
