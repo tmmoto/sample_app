@@ -18,7 +18,7 @@ describe UsersController do
     it "should find the right user" do
       get :show, :id => @user.id
       assigns(:user).should == @user  # assign method from RSpec will will return the @user symbol in the controller. 
-      #So we are testing here if the show action really returning the right object here
+      #So we are testing if the show action really returning the right object here
     end
     
     it "should have the right title" do
@@ -111,5 +111,75 @@ describe UsersController do
         controller.should be_signed_in
       end
     end    
+  end
+  
+  describe "GET 'edit'" do
+    before(:each) do
+      @user = Factory(:user)
+      test_sign_in(@user)  
+    end
+    
+    it "should be successful" do
+      get :edit, :id => @user
+      response.should be_success 
+    end
+    
+    it "should have the right title" do
+      get :edit, :id => @user
+      response.should have_selector('title', :content => "Edit user")
+    end
+    
+    it "should have a linke to change the Gravatar" do
+      get :edit, :id => @user
+      response.should have_selector('a', :href => 'http://gravatar.com/emails',
+                                          :content => 'change') 
+    end
+  end
+  
+  describe "PUT 'update'" do
+    before(:each) do
+      @user = Factory(:user)
+      test_sign_in(@user)
+    end
+
+    
+    describe "failure" do
+      
+      before(:each) do 
+        @attr = { :name => "", :email => "", :password => "", :password_confirmation => "" }  # Invalid user data
+      end
+      
+      it "should render the 'edit' page" do
+        put :update, :id => @user, :user => @attr
+        response.should render_template('edit')
+      end
+      
+      it "should have the right title" do
+        put :update, :id => @user, :user => @attr
+        response.should have_selector('title', :content => "Edit user")
+      end
+    end
+    
+    describe "succes" do
+      
+      before(:each) do
+        @attr = { :name =>"New Name", :email => "t6@2example.com", :password => "foobarx", :password_confimration=> "foobarx" }
+      end
+      
+      it "should change the user's attributes" do
+        put :update, :id => @user, :user => @attr
+        user = assigns(:user)   # We are getting the user local variable from the @user contained in the controller. ? 
+                                # Why don't we just compare with @attr
+        @user.reload #After the update, we are reloading the save data into @user
+        @user.name.should == user.name  
+        @user.email.should == user.email
+        @user.encrypted_password == user.encrypted_password
+      end
+      
+      it "should have a flash message" do
+        put :update, :id => @user, :user => @attr
+        flash[:success].should =~ /updated/i
+      end
+    end
   end
 end
