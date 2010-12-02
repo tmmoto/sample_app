@@ -13,6 +13,10 @@ module SessionsHelper
     @current_user ||= user_from_remember_token
   end
   
+  def current_user?(user)
+    user == current_user  
+  end
+  
   def signed_in?
     !current_user.nil?      # If the current user is not nil
   end
@@ -20,6 +24,24 @@ module SessionsHelper
   def sign_out
     cookies.delete(:remember_token)
     current_user = nil
+  end
+
+  def request_signin # changed method name from deny_access
+    store_location
+    redirect_to signin_path, :notice => "Please sign in to access this page."
+  end
+  
+  def store_location
+    session[:return_to] = request.fullpath  # We are setting the session cookie
+  end 
+  
+  def redirect_back_or(default)
+    redirect_to session[:return_to] || default #  If we stored something in the session, redirect to that, or to the default value
+    clear_return_to
+  end 
+  
+  def clear_return_to
+    session[:return_to] = nil  
   end
   
 private

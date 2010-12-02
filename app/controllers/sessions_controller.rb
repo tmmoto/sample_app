@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     else
       # Handle successful signin
       sign_in user
-      redirect_to user # Was originally _to user_path(user)
+      redirect_back_or user
     end
   end
   
