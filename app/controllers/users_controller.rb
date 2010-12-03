@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update] 
+  before_filter :authenticate, :only => [:edit, :update, :index] 
   before_filter :correct_user, :only => [:edit, :update]
+  
+  def index
+    @title = "All users"
+    @users = User.all  # Note here that we are using an @users variable, in plurral, in all other actions we used singular
+  end
   
   def show
     @user = User.find(params[:id])
