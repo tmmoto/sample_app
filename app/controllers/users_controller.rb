@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   
   def index
     @title = "All users"
-    @users = User.all  # Note here that we are using an @users variable, in plurral, in all other actions we used singular
+    @users = User.paginate(:page =>params[:page])   # Note here that we are using an @users variable, in plurral, in all other actions we used singular
   end
   
   def show
