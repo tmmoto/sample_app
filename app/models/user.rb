@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101116170432
+# Schema version: 20101220203245
 #
 # Table name: users
 #
@@ -10,18 +10,16 @@
 #  updated_at         :datetime
 #  encrypted_password :string(255)
 #  salt               :string(255)
+#  admin              :boolean
 #
 
 class User < ActiveRecord::Base
-  attr_accessor   :password
+  attr_accessor   :password  #  This creates “getter” and “setter” methods that allow us to retrieve (get) and assign (set) @name and @email instance variables.
   attr_accessible :name, :email, :password, :password_confirmation
   #Note: password was created by thhe attr_accessor, while :password_confirmation is created 
   # as a result of the password validation, created by rails, from the validates :password lines
   
-  
-  
   email_regex = /\A[\w.+\-]+@[a-z.\d\-]+\.[a-z]+\z/i
-  
   
   validates :name,  :presence   => true,
                     :length     => { :maximum => 50 }

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update, :index] 
+  before_filter :authenticate, :only => [:edit, :update, :index, :destroy] 
   before_filter :correct_user, :only => [:edit, :update]
+  before_filter :admin_user,   :only => :destroy # Could use here an array instead
   
   def index
     @title = "All users"
@@ -51,6 +52,19 @@ class UsersController < ApplicationController
     end
   end
   
+  def destroy
+    auser = User.find(params[:id])
+    if auser != current_user
+      auser.destroy
+      flash[:success] = "User destroyed."
+      redirect_to users_path
+    else
+      flash[:error] = "Cannot destory yourself."
+      redirect_to users_path    
+    end
+  
+  end
+  
 private 
 
   def authenticate   
@@ -58,9 +72,13 @@ private
   end
   
   def correct_user
-    @user = User.find(params[:id]) 
+    @user = User.find(params[:id])  # Ie. which users do we intend to to manipuate
     redirect_to(root_path) unless current_user?(@user)
   end  
+  
+  def admin_user
+    redirect_to (root_path) unless current_user.admin?
+  end
 end
 
 

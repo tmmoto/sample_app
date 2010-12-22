@@ -76,7 +76,7 @@ describe User do
   
   describe "password validations" do
     it "should require a password" do
-      User.new(@attr.merge(:password =>"", :password_confimration => "")).should_not be_valid
+      User.new(@attr.merge(:password =>"", :password_confirmation => "")).should_not be_valid
     end
     
     it "should require a mathching password confirmation" do
@@ -146,6 +146,28 @@ describe User do
       end
     end  
   end
+  
+  describe "admin attribute" do
+    
+    before(:each) do
+      @user = User.create!(@attr)
+    end
+    
+    it "should respond to admin" do
+      @user.should respond_to(:admin)
+    end
+    
+    it "should not be and admin by default" do
+      @user.should_not be_admin  # this willl call @user.admin? to check
+      # Could also use @user.admin?.should_not be_true
+    end
+    
+    it "should be convertible to an admin" do
+      @user.toggle!(:admin)  # toggle! will swap the value of the :admin boolean column  
+      @user.should be_admin
+    end
+  end
+  
 end  
 
 
