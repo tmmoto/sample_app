@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   #Note: password was created by thhe attr_accessor, while :password_confirmation is created 
   # as a result of the password validation, created by rails, from the validates :password lines
   
+  has_many :microposts, :dependent => :destroy
+  
   email_regex = /\A[\w.+\-]+@[a-z.\d\-]+\.[a-z]+\z/i
   
   validates :name,  :presence   => true,

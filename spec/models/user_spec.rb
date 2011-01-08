@@ -10,9 +10,11 @@ describe User do
               }
   end
   
+  # We are doing this just to see an error if something goes wrong with the initial  user creation
   it "should create a new instance given a valid attribute" do
     User.create!(@attr)
   end
+  
   
   it "should require a name" do
     no_name_user = User.new(@attr.merge(:name => ""))
@@ -168,6 +170,43 @@ describe User do
     end
   end
   
+  describe "micropost associations" do
+    
+    before(:each) do
+      @user = User.create(@attr)
+      @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago) 
+      @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago) 
+      # Note. Factorygirl lets us bypass the attr_accessible here, otherwise we wouldn't be able to set the the created_at
+      
+    end
+    
+    it "should have a microposts attribute" do
+      @user.should respond_to(:microposts)
+    end
+    #This test is really not necessary, as the model asscociation should autamtically set these up properly
+    #but still nice to write a test for this.
+    
+    it "should have the right micropost in the right order" do
+      @user.microposts.should == [@mp2, @mp1]
+    end
+    
+    it "should destroy associated microposts" do
+      @user.destroy
+      [@mp1, @mp2].each do |micropost|
+        Micropost.find_by_id(micropost.id).should be_nil
+      end  
+    end
+    
+    # Alternative way of testing for the same thing:
+    it "should destroy associated microposts" do
+      @user.destroy
+      [@mp1, @mp2].each do |micropost|
+        lambda do
+          Micropost.find(micropost.id)
+        end.should raise_error(ActiveRecord::RecordNotFound) # We got this value from testing in the consol for Micropost.find(1) for a non existing record
+      end  
+    end
+  end
 end  
 
 
