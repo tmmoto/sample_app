@@ -3,7 +3,9 @@
 }
 
 body {
-  background: #cff;
+  background-color: #4B7399;
+/*  font-family: Verdana, Helvetica, Arial;
+  font-size: 14px;*/
 }
 
 header {
@@ -42,11 +44,16 @@ a:visited {
   color: #069;
 }
 
+
+
 /* Navigation */
 
 nav {
   float: right;
-  background: white;
+}
+
+nav {
+  background-color: white;
   padding: 0 0.7em;
   white-space: nowrap;
 }
@@ -75,6 +82,7 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
+
 /* Sign up button */
 
 a.signup_button {
@@ -90,17 +98,19 @@ a.signup_button {
   padding: 20px;
 }
 
+
 /* Round corners */
 
 .round {
-  -moz-border-radius:    10px;
-  -webkit-border-radius: 10px;
-  border-radius:         10px;
+  -moz-border-radius:    5px;
+  -webkit-border-radius: 5px;
+  border-radius:         5px;
 }
 
-/* Footer */
 
-footer {
+
+/* Footer */
+footer { 
   text-align: center;
   margin-top: 10px;
   width: 710px;
@@ -111,6 +121,7 @@ footer {
 footer nav {
   float: none;
 }
+
 
 /* User show page */
 
@@ -128,7 +139,7 @@ td.sidebar {
   width: 30%;
   padding: 1em;
   vertical-align: top;
-  background: #ffc;
+  background: #ddd;
 }
 
 .profile img.gravatar {
@@ -136,15 +147,15 @@ td.sidebar {
   margin-bottom: -15px;
 }
 
-div.field, div.actions {
-  margin-bottom: 10px;
-}
+/*div.field, div.actions {
+ margin-bottom: 1px;
+}*/
 
-/*  Error messages */
 
+/* Error Messages */
 .field_with_errors {
-  margin-top: 10px;
-  padding: 2px;
+  margin-top: 1px;
+  padding: 1px;
   background-color: red;
   display: table;
 }
@@ -183,67 +194,13 @@ div.field, div.actions {
   list-style: square;
 }
 
+
+
 ul.users {
   margin-top: 1em;
 }
 
-ul.users li {
+.users li {
   list-style: none;
 }
 
-/*  Micropost styling */
-
-h1.micropost {
-  margin-bottom: 0.3em;
-}
-
-table.microposts {
-  margin-top: 1em;
-}
-
-table.microposts tr {
-  height: 70px;
-}
-
-table.microposts tr td.gravatar {
-  border-top: 1px solid #ccc;
-  vertical-align: top;
-  width: 50px;
-}
-
-table.microposts tr td.micropost {
-  border-top: 1px solid #ccc;
-  vertical-align: top;
-  padding-top: 10px;
-}
-
-table.microposts tr td.micropost span.timestamp {
-  display: block;
-  font-size: 85%;
-  color: #666;
-}
-
-div.user_info img {
-  padding-right: 0.1em;
-}
-
-div.user_info a {
-  text-decoration: none;
-}
-
-div.user_info span.user_name {
-  position: absolute;
-}
-
-div.user_info span.microposts {
-  font-size: 80%;
-}
-
-form.new_micropost {
-  margin-bottom: 2em;
-}
-
-form.new_micropost textarea {
-  height: 4em;
-  margin-bottom: 0;
-}
