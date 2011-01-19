@@ -67,10 +67,6 @@ class UsersController < ApplicationController
   end
   
 private 
-
-  def authenticate   
-    request_signin unless signed_in?
-  end
   
   def correct_user
     @user = User.find(params[:id])  # Ie. which users do we intend to to manipuate

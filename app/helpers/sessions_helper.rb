@@ -31,6 +31,10 @@ module SessionsHelper
     redirect_to signin_path, :notice => "Please sign in to access this page."
   end
   
+  def authenticate   
+    request_signin unless signed_in?
+  end
+    
   def store_location
     session[:return_to] = request.fullpath  # We are setting the session cookie
   end 
