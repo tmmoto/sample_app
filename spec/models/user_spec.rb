@@ -206,6 +206,28 @@ describe User do
         end.should raise_error(ActiveRecord::RecordNotFound) # We got this value from testing in the consol for Micropost.find(1) for a non existing record
       end  
     end
+    
+    describe "status feed" do
+      it "should have a feed" do
+        @user.should respond_to(:feed)
+      end
+    end
+    
+    it "should include the user's microposts" do
+      # @user.feed.include?(@mp1).should be_true
+      # but now an amazing convention
+      @user.feed.should include(@mp1)
+      @user.feed.should include(@mp2)
+    end
+
+    it "should not include a different user's microposts" do
+      # @user.feed.include?(@mp1).should be_true
+      # but now an amazing convention
+      
+      @mp3 = Factory(:micropost, :user => Factory(:user, :email => Factory.next(:email)))
+
+      @user.feed.should_not include(@mp3)
+    end
   end
 end  
 

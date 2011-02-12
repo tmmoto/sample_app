@@ -31,14 +31,15 @@ class User < ActiveRecord::Base
   validates :password, :presence => true,
                        :confirmation => true,    # This line creates a password_confirmation attribute
                        :length => { :within => 6..40 }
-                        
+  
+                   
   before_save :encrypt_password
   
   
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)
   end
-  
+   
 
   def User.authenticate(email, submitted_password)   # This is a class function (by using User. or self.  in the def)
     auser = find_by_email(email)
@@ -52,6 +53,15 @@ class User < ActiveRecord::Base
   def User.authenticate_with_salt(id, cookie_salt)  #Cookie salt is the salt value that we stored in the cookie and will to authenticate with
     user = find_by_id(id)
     (user && user.salt = cookie_salt) ? user : nil #  Ternary operator
+  end
+  
+  def feed
+    # Alternative versions
+    # 1 . microposts
+    # 2. self.microposts
+    # 3. new in Rails 3
+    Micropost.where("user_id = ?", self.id)
+    # The questionmark here means to escape anyting after the question mark, to avoid SQL injection attacks
     
   end
   
