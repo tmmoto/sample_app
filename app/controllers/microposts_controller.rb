@@ -8,8 +8,8 @@ class MicropostsController < ApplicationController
       # flash[:success] = "Micropost created"
       redirect_to root_path, :flash => {:success  =>"Micropost created!"}   
     else  
-      #@feed_items = []
-      #render 'pages/home'
+      # @feed_items = []
+      # render 'pages/home'
       redirect_to root_path, :flash => {:error => @micropost.errors.full_messages[0]}
     end  
   end
